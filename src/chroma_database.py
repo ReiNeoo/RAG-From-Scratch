@@ -16,9 +16,19 @@ class VectorDB:
                 embedding=self.embedding,
                 persist_directory=self.persist_directory)
         else:
-            self.database.add_documents(documents)
+            self.append_vectors(documents)
 
         self.database.persist()
 
     def retriever(self):
         return self.database.as_retriever()
+
+    def append_vectors(self, documents):
+        try:
+            self.database.add_documents(documents)
+            self.database.persist()
+        except Exception as e:
+            print(f'ERROR: {e}')
+
+    def is_empty(self):
+        return self.database._collection.count() == 0

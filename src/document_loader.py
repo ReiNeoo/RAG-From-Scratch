@@ -4,13 +4,14 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 
 class DocumentLoader:
-    def __init__(self, data_path, chunk_size=500, chunk_overlap=100):
+    def __init__(self, data_path, chunk_size=50, chunk_overlap=10):
         self.path = data_path
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
 
         self.splitter = RecursiveCharacterTextSplitter(
-            self.chunk_size, self.chunk_overlap
+            chunk_size=self.chunk_size,
+            chunk_overlap=self.chunk_overlap
         )
 
     def load_documents(self):
@@ -18,6 +19,18 @@ class DocumentLoader:
             if file.endswith(".pdf"):
                 file_path = os.path.join(self.path, file)
                 loader = PyPDFLoader(file_path)
+                docs = loader.load()
+                texts = self.splitter.split_documents(docs)
+                yield texts
+            elif file.endswith(".txt"):
+                file_path = os.path.join(self.path, file)
+                loader = TextLoader(file_path)
+                docs = loader.load()
+                texts = self.splitter.split_documents(docs)
+                yield texts
+            elif file.endswith(".docx"):
+                file_path = os.path.join(self.path, file)
+                loader = Docx2txtLoader(file_path)
                 docs = loader.load()
                 texts = self.splitter.split_documents(docs)
                 yield texts

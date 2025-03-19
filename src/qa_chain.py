@@ -7,7 +7,8 @@ class QAChain:
         self.retriever = retriever
         self.llm = ChatGroq(model="llama3-70b-8192", temperature=1)
         self.qa_chain = RetrievalQA.from_chain_type(
-            llm=self.llm
+            llm=self.llm,
+            retriever=self.retriever
         )
 
     def run(self, query):

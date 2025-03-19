@@ -2,3 +2,4 @@
 .gradio
 data
 offload_dir
+.env

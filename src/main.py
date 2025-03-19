@@ -1,31 +1,32 @@
+from chroma_database import VectorDB
+from document_loader import DocumentLoader
+from qa_chain import QAChain
+
 from langchain_community.embeddings import HuggingFaceBgeEmbeddings
-from langchain_community.document_loaders import TextLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-PATH = "/home/proven/huggingface_model/data/example.data"
+PATH = "/home/proven/huggingface_model/data"
+DB_PATH = "/home/proven/huggingface_model/chroma_db"
 
-# loader = TextLoader(PATH)
-# documents = loader.load()
 
-# text_splitter = RecursiveCharacterTextSplitter(
-#     chunk_size=500,
-#     chunk_overlap=100,
-# )
+def main():
+    documents = []
+    document_loader = DocumentLoader(PATH)
+    for chunked_doc in document_loader.load_documents():
+        documents.extend(chunked_doc)
 
-# texts = text_splitter.split_documents(documents)
+    embeddings = HuggingFaceBgeEmbeddings(
+        model_name="sentence-transformers/all-MiniLM-L6-v2")
 
-embeddings = HuggingFaceBgeEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L6-v2")
+    database = VectorDB(embeddings, DB_PATH)
+    database.create_vector_store(documents, overwrite=True)
+    qa_chain = QAChain(database.retriever())
 
-# database = Chroma.from_documents(
-#     texts, embeddings, persist_directory="./chroma_db")
+    # query = "Proven Exchange üzerinden verilen tüm emirler veya yapılan swap işlemleri nerede görüntülenir?"
+    query = "what is a blashumbabum"
+    response = qa_chain.run(query)
 
-print("Documents vectorized and saved successfully!")
+    print(f"Response: {response}")
 
-# query = "What is AI?"
-# results = database.similarity_search(query, k=3)  # Return top 3 results
 
-# for i, result in enumerate(results):
-#     print(f"Result {i+1}:\n{result.page_content}\n")
-
-# database.persist()
+if __name__ == "__main__":
+    main()
