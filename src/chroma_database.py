@@ -9,8 +9,8 @@ class VectorDB:
             persist_directory=self.persist_directory,
             embedding_function=embedding)
 
-    def create_vector_store(self, documents, overwrite=False):
-        if overwrite:
+    def create_vector_store(self, documents):
+        if self.database._collection.count() == 0:
             self.database = Chroma.from_documents(
                 documents=documents,
                 embedding=self.embedding,

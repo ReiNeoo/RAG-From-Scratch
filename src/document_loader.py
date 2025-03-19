@@ -4,7 +4,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 
 class DocumentLoader:
-    def __init__(self, data_path, chunk_size=50, chunk_overlap=10):
+    def __init__(self, data_path, chunk_size=500, chunk_overlap=100):
         self.path = data_path
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
