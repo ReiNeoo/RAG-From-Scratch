@@ -1,13 +1,15 @@
 from src.rag_system import RAG
 
+import asyncio
 
-def main():
+
+async def main():
     rag_system = RAG()
+    query = "Gas fee olacak mı? Olmayacaksa işlemler nasıl gerçekleşmektedir?"
 
-    response = rag_system.get_query(
-        "Gas fee olacak mı? Olmayacaksa işlemler nasıl gerçekleşmektedir?")
-    print(response)
+    async for token in rag_system.get_response_tokens(query):
+        print(token)
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

@@ -1,6 +1,6 @@
-from chroma_database import VectorDB
-from document_loader import DocumentLoader
-from qa_chain import QAChain
+from src.chroma_database import VectorDB
+from src.document_loader import DocumentLoader
+from src.qa_chain import QAChain
 
 from langchain_community.embeddings import HuggingFaceBgeEmbeddings
 
@@ -29,5 +29,9 @@ class RAG:
     def _vectorize_documents(self, doc):
         self.database.create_vector_store(doc)
 
-    def get_query(self, query):
-        return self.qa_chain.run(query)
+    async def get_response_tokens(self, query):
+        async for token in self.qa_chain.invoke(query):
+            yield token
+
+    def get_query_generator(self, query):
+        pass
