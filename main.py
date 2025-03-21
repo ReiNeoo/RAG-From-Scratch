@@ -8,7 +8,7 @@ async def main():
     query = "Gas fee olacak mı? Olmayacaksa işlemler nasıl gerçekleşmektedir?"
 
     async for token in rag_system.get_response_tokens(query):
-        print(token)
+        print(token, end="", flush=True)
 
 
 if __name__ == "__main__":
