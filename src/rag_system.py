@@ -1,6 +1,6 @@
-from chroma_database import VectorDB
-from document_loader import DocumentLoader
-from qa_chain import QAChain
+from src.chroma_database import VectorDB
+from src.document_loader import DocumentLoader
+from src.qa_chain import QAChain
 
 from langchain_community.embeddings import HuggingFaceBgeEmbeddings
 
