@@ -15,16 +15,20 @@ class RAG:
             model_name="sentence-transformers/all-MiniLM-L6-v2"
         )
 
-        self.documents = self._load_documents()
+        self.documents = self.load_plenty_of_documents()
         self.database = VectorDB(self.embedgings, DB_PATH)
         self.database.create_vector_store(self.documents)
         self.qa_chain = QAChain(self.database.retriever())
 
-    def _load_documents(self):
+    def load_plenty_of_documents(self):
         documents = []
         for chunked_doc in self.doc_loader.load_documents():
             documents.extend(chunked_doc)
         return documents
+
+    def append_docs(self, file):
+        document = self.doc_loader.prepare_doc(file)
+        self.database.append_vectors(document)
 
     def _vectorize_documents(self, doc):
         self.database.create_vector_store(doc)

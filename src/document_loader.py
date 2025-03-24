@@ -34,3 +34,23 @@ class DocumentLoader:
                 docs = loader.load()
                 texts = self.splitter.split_documents(docs)
                 yield texts
+
+    def prepare_doc(self, document_path):
+        if document_path.endswith(".pdf"):
+            file_path = os.path.join(self.path, document_path)
+            loader = PyPDFLoader(file_path)
+            docs = loader.load()
+            texts = self.splitter.split_documents(docs)
+            return texts
+        elif document_path.endswith(".txt"):
+            file_path = os.path.join(self.path, document_path)
+            loader = TextLoader(file_path)
+            docs = loader.load()
+            texts = self.splitter.split_documents(docs)
+            return texts
+        elif document_path.endswith(".docx"):
+            file_path = os.path.join(self.path, document_path)
+            loader = Docx2txtLoader(file_path)
+            docs = loader.load()
+            texts = self.splitter.split_documents(docs)
+            return texts

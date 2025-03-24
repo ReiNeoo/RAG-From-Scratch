@@ -10,6 +10,5 @@ async def main():
     async for token in rag_system.get_response_tokens(query):
         print(token, end="", flush=True)
 
-
 if __name__ == "__main__":
     asyncio.run(main())
