@@ -7,17 +7,17 @@ from fastapi.responses import StreamingResponse, JSONResponse
 from pathlib import Path
 
 from src.rag_system import RAG
+from src.session_based_memory import SessionBasedMemory
 
 
 UPLOAD_DIRECTORY = Path("/home/proven/huggingface_model/data")
-
+ses_memory = SessionBasedMemory()
 rag_system = RAG()
 app = FastAPI()
 
 
 @app.get('/query')
 async def get_query(query):
-
     async def token_streamer():
         async for token in rag_system.get_response_tokens(query):
             await asyncio.sleep(0.1)

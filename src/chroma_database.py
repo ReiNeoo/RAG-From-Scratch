@@ -9,16 +9,24 @@ class VectorDB:
             persist_directory=self.persist_directory,
             embedding_function=embedding)
 
+    # def create_vector_store(self, documents):
+    #     if self.database._collection.count() == 0:
+    #         self.database = Chroma.from_documents(
+    #             documents=documents,
+    #             embedding=self.embedding,
+    #             persist_directory=self.persist_directory)
+    #     else:
+    #         self.append_vectors(documents)
+
+    #     self.database.persist()
+
     def create_vector_store(self, documents):
         if self.database._collection.count() == 0:
             self.database = Chroma.from_documents(
                 documents=documents,
                 embedding=self.embedding,
                 persist_directory=self.persist_directory)
-        else:
-            self.append_vectors(documents)
-
-        self.database.persist()
+            self.database.persist()
 
     def retriever(self):
         return self.database.as_retriever()
