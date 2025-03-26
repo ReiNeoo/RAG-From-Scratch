@@ -3,3 +3,4 @@
 data
 offload_dir
 .env
+/home/proven/huggingface_model/chroma_db
