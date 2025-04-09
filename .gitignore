@@ -1,3 +1,5 @@
 .venv
 .gradio
 data
+
+playground.ipynb
