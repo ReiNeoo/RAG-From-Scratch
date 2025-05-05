@@ -23,7 +23,7 @@ class QAChain:
         # self.llm = ChatGroq(model="llama3-70b-8192",
         #                     temperature=1, streaming=True, callbacks=[self.callback_handler])
         self.llm = OllamaLLM(
-            model="llama3",
+            model="llama3.1",
             streaming=True,
             temperature=1,
             callbacks=[self.callback_handler]
